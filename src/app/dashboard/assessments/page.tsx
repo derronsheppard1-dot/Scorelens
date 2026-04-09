@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import Card from "@/components/ui/card";
 import PageHeader from "@/components/app/page-header";
@@ -82,12 +83,12 @@ export default async function AssessmentsPage({
               {assessments.map((assessment) => (
                 <tr key={assessment.id} className="hover:bg-slate-50">
                   <td className="border-b border-slate-200 px-4 py-3">
-                    <a
+                    <Link
                       href={`/dashboard/assessments/${assessment.id}`}
                       className="font-medium text-slate-900 underline"
                     >
                       {assessment.title}
-                    </a>
+                    </Link>
                   </td>
                   <td className="border-b border-slate-200 px-4 py-3 capitalize">
                     {assessment.status}
