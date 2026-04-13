@@ -4,6 +4,7 @@ import Card from "@/components/ui/card";
 import PageHeader from "@/components/app/page-header";
 import ButtonLink from "@/components/ui/button-link";
 import AssessmentQuestionsList from "@/components/app/assessment-question-list";
+import FlashMessages from "@/components/app/flash-message";
 
 type AssessmentDetailPageProps = {
   params: Promise<{
@@ -11,6 +12,7 @@ type AssessmentDetailPageProps = {
   }>;
   searchParams?: Promise<{
     error?: string;
+    success?: string;
   }>;
 };
 
@@ -58,6 +60,7 @@ export default async function AssessmentDetailPage({
   const { id } = await params;
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const pageError = resolvedSearchParams?.error;
+  const pageSuccess = resolvedSearchParams?.success;
 
   const supabase = await createClient();
 
@@ -120,20 +123,16 @@ export default async function AssessmentDetailPage({
         actions={
           <div className="flex flex-wrap gap-3">
             <ButtonLink href={`/dashboard/assessments/${assessment.id}/questions/new`}>
-              Create & Add Question
+              Create &amp; Add Question
             </ButtonLink>
-            <ButtonLink href={`/dashboard/assessments/${assessment.id}/questions/add`}>
+            <ButtonLink href={`/dashboard/assessments/${assessment.id}/add-from-bank`}>
               Add from Question Bank
             </ButtonLink>
           </div>
         }
       />
 
-      {pageError ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-          {pageError}
-        </div>
-      ) : null}
+      <FlashMessages error={pageError} success={pageSuccess} autoDismissMs={5000} />
 
       <Card>
         <dl className="grid gap-4 sm:grid-cols-3">
